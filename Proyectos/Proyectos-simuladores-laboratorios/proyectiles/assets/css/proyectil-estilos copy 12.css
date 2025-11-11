@@ -1,0 +1,97 @@
+/*
+* Archivo: proyectil-estilos.css
+* Descripción: Estilos para el Nivel 9 (Panel de Datos).
+*/
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: #0a0a1a;
+  font-family: Arial, sans-serif; /* Fuente más legible */
+}
+
+/* --- Fondo --- */
+#background-gif-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+}
+#background-gif-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.4) blur(10px);
+  opacity: 0.6;
+}
+
+/* --- Canvas --- */
+canvas {
+  display: block;
+  background-color: transparent;
+}
+
+/* --- NUEVO: Contenedor de Botones --- */
+#controls-container {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  display: flex;
+  gap: 10px; /* Espacio entre botones */
+}
+
+/* --- Estilos de Botones --- */
+#fireButton,
+#toggleDataButton {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+#fireButton:hover,
+#toggleDataButton:hover {
+  background-color: #0056b3;
+}
+
+/* --- NUEVO: Panel de Datos Flotante --- */
+#data-panel {
+  position: fixed;
+  top: 80px; /* Debajo de los botones */
+  left: 20px;
+  width: 250px;
+  background-color: rgba(0, 0, 0, 0.75); /* Fondo oscuro semitransparente */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  z-index: 5;
+  transition: opacity 0.3s ease;
+}
+
+#data-panel h3 {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #555;
+  padding-bottom: 5px;
+}
+#data-panel p {
+  margin: 5px 0;
+}
+#data-panel span {
+  font-weight: bold;
+  color: #ffab00; /* Color naranja para los datos */
+}
+
+/* --- NUEVO: Clase para Ocultar --- */
+#data-panel.hidden {
+  display: none; /* La forma más simple de ocultar */
+}

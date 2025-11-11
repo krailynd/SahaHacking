@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SahaHacking | El Arreglo Definitivo (v3)</title>
+    <style>
+      /* CSS LIMPIO (No se toca) */
+      body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #0a0a1a;
+        font-family: sans-serif;
+        color: white;
+      }
+      canvas {
+        display: block;
+        background-color: transparent;
+        cursor: crosshair;
+      }
+      #instructions {
+        position: fixed;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 5px;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="instructions">
+      Mueve el mouse para apuntar (línea amarilla). Haz clic para disparar (bola
+      azul).
+    </div>
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+      /*
+       * JAVASCRIPT DESDE CERO (NIVEL FINAL - Arreglado)
+       * "Lo que ves es lo que obtienes"
+       * CORREGIDO EL ERROR DE "deltaTime = 0".
+       * El proyectil AHORA SÍ SALE.
+       */
+
+      // --- 1. CONFIGURACIÓN ---
+      const canvas = document.getElementById('gameCanvas');
+      const ctx = canvas.getContext('2d');
+      const GRAVITY = 9.8;
+      const PIXELS_PER_METER = 10;
+      let GROUND_Y;
+
+      let cannon = {
+        x: 50,
+        y: 0,
+        angle: -45,
+        velocity: 100,
+      };
+
+      let projectiles = []; // Array para guardar los proyectiles disparados
+      let mouse = { x: 0, y: 0 };
+
+      // --- 2. EL MOTOR DE FÍSICA (Clase Proyectil) ---
+      class Projectile {
+        constructor(x, y, velocity, angle) {
+          this.x = x;
+          this.y = y;
+          this.radius = 5;
+          const angleRad = angle * (Math.PI / 180);
+          this.vx = velocity * Math.cos(angleRad);
+          this.vy = velocity * Math.sin(angleRad);
+          this.isFlying = true;
+        }
+
+        update(deltaTime) {
+          if (!this.isFlying) return;
+
+          this.x += this.vx * deltaTime;
+          this.y += this.vy * deltaTime;
+          this.vy += GRAVITY * PIXELS_PER_METER * deltaTime;
+
+          // Cuando choca con el suelo
+          if (this.y + this.radius > GROUND_Y) {
+            this.y = GROUND_Y - this.radius; // Lo clava al suelo
+            this.isFlying = false; // Deja de moverse
+          }
+        }
+
+        draw(ctx) {
+          ctx.fillStyle = '#00BFFF';
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // --- 3. EL BUCLE DE JUEGO (El Corazón) ---
+
+      // ¡LA CORRECCIÓN ESTÁ AQUÍ!
+      // No inicializamos 'lastTime' con 0.
+      let lastTime;
+
+      function gameLoop(currentTime) {
+        // Si 'lastTime' no existe (primer frame), lo establecemos
+        if (!lastTime) {
+          lastTime = currentTime;
+        }
+
+        let deltaTime = (currentTime - lastTime) / 1000; // en segundos
+
+        // Barrera Anti-Errores
+        if (isNaN(deltaTime) || deltaTime > 0.5) {
+          deltaTime = 0;
+        }
+        lastTime = currentTime; // Actualiza el tiempo para el próximo frame
+
+        update(deltaTime);
+        draw();
+        requestAnimationFrame(gameLoop);
+      }
+
+      // --- 4. FUNCIONES DE ACTUALIZACIÓN Y DIBUJO ---
+      function update(deltaTime) {
+        // Actualizar puntería del cañón
+        const dx = mouse.x - cannon.x;
+        const dy = mouse.y - cannon.y;
+        cannon.angle = Math.atan2(dy, dx) * (180 / Math.PI);
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        cannon.velocity = Math.min(Math.max(distance, 50), 300);
+
+        // Actualizar todos los proyectiles en el aire
+        for (let p of projectiles) {
+          p.update(deltaTime);
+        }
+      }
+
+      function draw() {
+        ctx.fillStyle = '#0a0a1a';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Dibujar suelo
+        ctx.fillStyle = '#4a4a5a';
+        ctx.fillRect(0, GROUND_Y, canvas.width, canvas.height - GROUND_Y);
+
+        // Dibujar cañón
+        ctx.fillStyle = '#FF0077';
+        ctx.beginPath();
+        ctx.arc(cannon.x, cannon.y, 10, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Dibuja la línea (el predictor)
+        drawTrajectoryLine();
+
+        // Dibujar todos los proyectiles (volando o en el suelo)
+        for (let p of projectiles) {
+          p.draw(ctx);
+        }
+      }
+
+      // Dibuja la LÍNEA AMARILLA (el predictor)
+      function drawTrajectoryLine() {
+        ctx.strokeStyle = 'rgba(255, 255, 0, 0.5)';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+
+        const angleRad = cannon.angle * (Math.PI / 180);
+        let x = cannon.x;
+        let y = cannon.y;
+        let vx = cannon.velocity * Math.cos(angleRad);
+        let vy = cannon.velocity * Math.sin(angleRad);
+        const dt = 0.1;
+
+        ctx.moveTo(x, y);
+
+        for (let i = 0; i < 100; i++) {
+          x += vx * dt;
+          y += vy * dt;
+          vy += GRAVITY * PIXELS_PER_METER * dt;
+          ctx.lineTo(x, y);
+          if (y > GROUND_Y) break;
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      // --- 5. EVENTOS (Clicks y Mouse) ---
+      function onResize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        GROUND_Y = canvas.height - 50;
+        cannon.y = GROUND_Y;
+      }
+
+      function onMouseMove(event) {
+        mouse.x = event.clientX;
+        mouse.y = event.clientY;
+      }
+
+      function onMouseDown(event) {
+        // ¡DISPARAR!
+        // "Lo que ves es lo que obtienes"
+        const actualVelocity = cannon.velocity;
+
+        const p = new Projectile(
+          cannon.x,
+          cannon.y,
+          actualVelocity,
+          cannon.angle
+        );
+
+        projectiles.push(p); // Añade el nuevo proyectil al array
+      }
+
+      // --- 6. INICIAR TODO ---
+      window.addEventListener('resize', onResize);
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mousedown', onMouseDown);
+
+      onResize(); // Llamar una vez al inicio
+
+      // ¡LA CORRECCIÓN DEL MOTOR!
+      // Simplemente llama a requestAnimationFrame.
+      // La lógica dentro de gameLoop() se encarga del tiempo.
+      requestAnimationFrame(gameLoop);
+    </script>
+  </body>
+</html>

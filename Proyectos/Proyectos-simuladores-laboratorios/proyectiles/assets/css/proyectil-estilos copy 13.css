@@ -1,0 +1,136 @@
+/*
+* Archivo: proyectil-estilos.css
+* Descripción: Estilos para el Nivel 10 (Paneles de Historial).
+*/
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: #0a0a1a;
+  font-family: Arial, sans-serif;
+}
+
+/* --- Fondo --- */
+#background-gif-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+}
+#background-gif-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.4) blur(10px);
+  opacity: 0.6;
+}
+
+/* --- Canvas --- */
+canvas {
+  display: block;
+  background-color: transparent;
+}
+
+/* --- Contenedor de Botones --- */
+#controls-container {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  display: flex;
+  gap: 10px;
+}
+
+/* --- Estilos de Botones --- */
+#fireButton,
+#toggleDataButton,
+#toggleHistoryButton {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+#fireButton:hover,
+#toggleDataButton:hover,
+#toggleHistoryButton:hover {
+  background-color: #0056b3;
+}
+
+/* --- Panel de Datos (Izquierda) --- */
+#data-panel {
+  position: fixed;
+  top: 80px; /* Debajo de los botones */
+  left: 20px;
+  width: 250px;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  z-index: 5;
+}
+#data-panel h3 {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #555;
+  padding-bottom: 5px;
+}
+#data-panel p {
+  margin: 5px 0;
+}
+#data-panel span {
+  font-weight: bold;
+  color: #ffab00;
+}
+
+/* --- NUEVO: Panel de Historial (Derecha) --- */
+#history-panel {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 250px;
+  max-height: 400px; /* Altura máxima */
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  z-index: 5;
+}
+#history-panel h3 {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #555;
+  padding-bottom: 5px;
+}
+#history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 300px; /* Altura para el scroll */
+  overflow-y: auto; /* Scroll si hay muchos items */
+}
+#history-list li {
+  padding: 8px;
+  border-bottom: 1px solid #444;
+  font-size: 14px;
+}
+#history-list li:last-child {
+  border-bottom: none;
+}
+#history-list li strong {
+  color: #00aaff; /* Color azul para el ID */
+}
+
+/* --- Clase para Ocultar Paneles --- */
+.hidden {
+  display: none;
+}

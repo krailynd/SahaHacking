@@ -1,0 +1,56 @@
+/*
+* Archivo: proyectil-estilos.css
+* Descripción: Estilos para el Nivel 8.
+*/
+
+body {
+  margin: 0;
+  overflow: hidden; /* Evita barras de scroll */
+  background-color: #0a0a1a;
+}
+
+/* --- Contenedor del Fondo GIF --- */
+#background-gif-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+}
+
+#background-gif-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.4) blur(10px);
+  opacity: 0.6;
+}
+
+/* --- Canvas Principal --- */
+canvas {
+  display: block;
+  background-color: transparent; /* El fondo lo da el div */
+}
+
+/* --- Estilos del Botón --- */
+#fireButton {
+  position: fixed; /* Se queda fijo en la pantalla */
+  top: 20px;
+  left: 20px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 10; /* Asegura que esté sobre el canvas */
+  transition: background-color 0.2s;
+}
+
+#fireButton:hover {
+  background-color: #0056b3;
+}

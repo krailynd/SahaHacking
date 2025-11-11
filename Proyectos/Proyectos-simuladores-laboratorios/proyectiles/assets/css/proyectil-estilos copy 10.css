@@ -1,0 +1,62 @@
+/*
+ * Archivo: proyectil-estilos.css
+ * Descripción: Nivel 5 - Estilos para el cañón y el botón de disparo.
+ */
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: #0a0a1a;
+}
+
+/* --- Contenedor del Fondo GIF --- */
+#background-gif-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+}
+
+#background-gif-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.4) blur(10px);
+  opacity: 0.6;
+}
+
+canvas {
+  display: block;
+  background-color: transparent;
+  cursor: crosshair; /* El cursor ahora es una mira */
+}
+
+/* --- ¡NUEVO! Estilo del Botón de Disparo --- */
+#fireButton {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  background-color: rgba(255, 0, 119, 0.7); /* Rosa translúcido */
+  color: white;
+  border: 2px solid #ff0077;
+  border-radius: 10px;
+  padding: 12px 28px;
+
+  font-size: 1.2em;
+  font-weight: bold;
+  font-family: 'Space Mono', monospace; /* Coincide con tu tema */
+
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+  transition: all 0.2s ease;
+}
+
+#fireButton:hover {
+  background-color: #ff0077;
+  box-shadow: 0 0 20px #ff0077;
+}

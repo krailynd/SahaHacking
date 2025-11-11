@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SahaHacking | Proyectil - Nivel 4 (HUD y Cámara)</title>
+
+    <link rel="stylesheet" href="assets/css/proyectil-estilos.css" />
+    <script src="assets/js/proyectil-main.js" defer></script>
+  </head>
+  <body>
+    <canvas id="gameCanvas"></canvas>
+
+    <div id="tools-panel" class="floating-panel" style="display: none">
+      <div class="panel-header">
+        <h4>Herramientas</h4>
+        <button class="close-btn" data-panel="tools-panel">X</button>
+      </div>
+      <div class="panel-content">
+        <label>
+          <input type="checkbox" id="follow-checkbox" checked />
+          Seguir Proyectil
+        </label>
+      </div>
+    </div>
+
+    <div
+      id="data-panel"
+      class="floating-panel"
+      style="right: 20px; display: none"
+    >
+      <div class="panel-header">
+        <h4>Datos en Vivo</h4>
+        <button class="close-btn" data-panel="data-panel">X</button>
+      </div>
+      <div id="data-content" class="panel-content">Esperando disparo...</div>
+    </div>
+
+    <div class="hud-bar">
+      <button id="fireButton" class="hud-button fire">Disparar</button>
+      <button class="hud-button" data-panel="tools-panel">
+        Herramientas (T)
+      </button>
+      <button class="hud-button" data-panel="data-panel">Datos (D)</button>
+    </div>
+  </body>
+</html>

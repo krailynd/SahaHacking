@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SahaHacking | El Reincio Definitivo</title>
+    <style>
+      /* CSS LIMPIO */
+      body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #0a0a1a; /* Azul oscuro */
+        font-family: sans-serif;
+        color: white;
+      }
+      canvas {
+        display: block;
+        background-color: transparent;
+        cursor: crosshair;
+      }
+      #instructions {
+        position: fixed;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 5px;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="instructions">
+      Mueve el mouse para apuntar (línea amarilla). Haz clic para disparar (bola
+      azul).
+    </div>
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+      /*
+       * JAVASCRIPT DESDE CERO (NIVEL FINAL)
+       * Arreglado el bug de "no sale nada".
+       * Implementada la variabilidad (el proyectil NO sigue la línea).
+       */
+
+      // --- 1. CONFIGURACIÓN ---
+      const canvas = document.getElementById('gameCanvas');
+      const ctx = canvas.getContext('2d');
+
+      // Constantes de física
+      const GRAVITY = 9.8; // m/s^2
+      const PIXELS_PER_METER = 10;
+
+      let GROUND_Y; // El suelo (se define en onResize)
+
+      // El Cañón
+      let cannon = {
+        x: 50,
+        y: 0, // Se actualizará en onResize
+        angle: -45, // Ángulo en grados
+        velocity: 100, // Velocidad de la MIRA
+      };
+
+      // ¡LA LÓGICA DE PHET!
+      const VARIABILITY = 15; // Qué tan "impreciso" es el tiro.
+
+      let projectiles = []; // Un array para múltiples proyectiles
+      let mouse = { x: 0, y: 0 };
+
+      // --- 2. EL MOTOR DE FÍSICA (Clase Proyectil) ---
+      class Projectile {
+        constructor(x, y, velocity, angle) {
+          this.x = x;
+          this.y = y;
+          this.radius = 5;
+          const angleRad = angle * (Math.PI / 180);
+          this.vx = velocity * Math.cos(angleRad);
+          this.vy = velocity * Math.sin(angleRad);
+          this.isFlying = true;
+        }
+
+        update(deltaTime) {
+          if (!this.isFlying) return;
+
+          this.x += this.vx * deltaTime;
+          this.y += this.vy * deltaTime;
+          this.vy += GRAVITY * PIXELS_PER_METER * deltaTime;
+
+          if (this.y + this.radius > GROUND_Y) {
+            this.y = GROUND_Y - this.radius;
+            this.isFlying = false;
+          }
+        }
+
+        draw(ctx) {
+          ctx.fillStyle = '#00BFFF'; // Azul brillante
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // --- 3. EL BUCLE DE JUEGO (El Corazón) ---
+      let lastTime = 0;
+      function gameLoop(currentTime) {
+        // DeltaTime: El tiempo (en segundos) desde el último frame
+        let deltaTime = (currentTime - lastTime) / 1000;
+
+        // ¡Barrera Anti-Errores! Si el tiempo es loco (ej. NaN o > 1s), trátalo como 0.
+        if (isNaN(deltaTime) || deltaTime > 1.0) {
+          deltaTime = 0;
+        }
+        lastTime = currentTime;
+
+        // 1. Actualizar (Mover cosas)
+        update(deltaTime);
+
+        // 2. Dibujar (Mostrar cosas)
+        draw();
+
+        // 3. Repetir
+        requestAnimationFrame(gameLoop);
+      }
+
+      // --- 4. FUNCIONES DE ACTUALIZACIÓN Y DIBUJO ---
+      function update(deltaTime) {
+        // Actualizar puntería
+        const dx = mouse.x - cannon.x;
+        const dy = mouse.y - cannon.y;
+        cannon.angle = Math.atan2(dy, dx) * (180 / Math.PI);
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        cannon.velocity = Math.min(Math.max(distance, 50), 300);
+
+        // Actualizar TODOS los proyectiles
+        for (let p of projectiles) {
+          p.update(deltaTime);
+        }
+        // Limpiar proyectiles que ya no vuelan
+        projectiles = projectiles.filter((p) => p.isFlying);
+      }
+
+      function draw() {
+        ctx.fillStyle = '#0a0a1a';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Dibujar suelo
+        ctx.fillStyle = '#4a4a5a';
+        ctx.fillRect(0, GROUND_Y, canvas.width, canvas.height - GROUND_Y);
+
+        // Dibujar cañón
+        ctx.fillStyle = '#FF0077';
+        ctx.beginPath();
+        ctx.arc(cannon.x, cannon.y, 10, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Dibuja la línea (el predictor)
+        drawTrajectoryLine();
+
+        // Dibujar TODOS los proyectiles
+        for (let p of projectiles) {
+          p.draw(ctx);
+        }
+      }
+
+      // Dibuja la LÍNEA AMARILLA (basada en la mira)
+      function drawTrajectoryLine() {
+        ctx.strokeStyle = 'rgba(255, 255, 0, 0.5)';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+
+        const angleRad = cannon.angle * (Math.PI / 180);
+        let x = cannon.x;
+        let y = cannon.y;
+        let vx = cannon.velocity * Math.cos(angleRad);
+        let vy = cannon.velocity * Math.sin(angleRad);
+        const dt = 0.1;
+
+        ctx.moveTo(x, y);
+
+        for (let i = 0; i < 100; i++) {
+          x += vx * dt;
+          y += vy * dt;
+          vy += GRAVITY * PIXELS_PER_METER * dt;
+          ctx.lineTo(x, y);
+          if (y > GROUND_Y) break;
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      // ¡LA LÓGICA DE VARIABILIDAD!
+      // Genera un número aleatorio con "distribución normal"
+      function normalRandom(mean, stdDev) {
+        let u1 = 0,
+          u2 = 0;
+        while (u1 === 0) u1 = Math.random();
+        while (u2 === 0) u2 = Math.random();
+        const z = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
+        return z * stdDev + mean;
+      }
+
+      // --- 5. EVENTOS (Clicks y Mouse) ---
+      function onResize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        GROUND_Y = canvas.height - 50;
+        cannon.y = GROUND_Y;
+      }
+
+      function onMouseMove(event) {
+        mouse.x = event.clientX;
+        mouse.y = event.clientY;
+      }
+
+      function onMouseDown(event) {
+        // ¡DISPARAR!
+
+        // 1. Obtiene la velocidad de la MIRA (línea amarilla)
+        const baseVelocity = cannon.velocity;
+
+        // 2. Calcula la velocidad REAL (con variabilidad)
+        const actualVelocity = normalRandom(baseVelocity, VARIABILITY);
+
+        // 3. Crea el proyectil AZUL con la velocidad REAL
+        const p = new Projectile(
+          cannon.x,
+          cannon.y,
+          actualVelocity, // <--- ¡AQUÍ ESTÁ LA MAGIA!
+          cannon.angle
+        );
+
+        projectiles.push(p); // Añade el nuevo proyectil al array
+      }
+
+      // --- 6. INICIAR TODO ---
+      window.addEventListener('resize', onResize);
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mousedown', onMouseDown);
+
+      onResize(); // Llamar una vez al inicio
+
+      // ¡LA CORRECCIÓN FINAL!
+      lastTime = performance.now(); // Establece el tiempo inicial
+      requestAnimationFrame(gameLoop); // Inicia el bucle de forma segura
+    </script>
+  </body>
+</html>

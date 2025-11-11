@@ -1,0 +1,18 @@
+/*
+ * Archivo: proyectil-estilos.css
+ * Descripción: Estilos principales para el simulador de proyectiles "SahaHacking".
+ */
+
+body {
+  margin: 0;
+  overflow: hidden; /* Evita barras de desplazamiento */
+  background-color: #1a1a2e; /* Fondo oscuro Cyberpunk */
+  font-family: 'Roboto Mono', monospace;
+  color: #e0e0e0;
+}
+
+canvas {
+  display: block; /* Elimina espacio extra debajo del canvas */
+  background-color: #1a1a2e; /* Fondo del canvas, puede ser una imagen futura */
+  cursor: crosshair; /* Cursor para indicar interacción */
+}

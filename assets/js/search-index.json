@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Inicio - SahaHacking",
+    "url": "index.html",
+    "excerpt": "Agencia de desarrollo y diseño: servicios digitales, soluciones a medida.",
+    "tags": ["inicio","home","servicios"],
+    "content": "Somos un equipo dinámico de diseño y desarrollo creativo..."
+  },
+  {
+    "title": "Sobre Nosotros",
+    "url": "about-us.html",
+    "excerpt": "Conoce al equipo y nuestra filosofía de trabajo.",
+    "tags": ["equipo","acerca","nosotros"],
+    "content": "We are dynamic team of creative design and development..."
+  },
+  {
+    "title": "Servicios",
+    "url": "service.html",
+    "excerpt": "Web Development, Mobile App, soluciones personalizadas.",
+    "tags": ["servicios","web","mobile"],
+    "content": "Web Development, Mobile app Development, Any kind Custom Solution..."
+  },
+  {
+    "title": "Contacto",
+    "url": "contact.html",
+    "excerpt": "Ponte en contacto con nosotros para tu próximo proyecto.",
+    "tags": ["contacto","soporte"],
+    "content": "Formulario de contacto y datos de ubicación"
+  },
+  {
+    "title": "Blog",
+    "url": "blog.html",
+    "excerpt": "Lee nuestras últimas historias y tutoriales.",
+    "tags": ["blog","artículos"],
+    "content": "How to Increase Your ROI Through scientific SEM? ECommerce Marketing Statistics..."
+  },
+  {
+    "title": "Casos de Estudio",
+    "url": "case-studies.html",
+    "excerpt": "Algunos de nuestros casos de estudio recientes.",
+    "tags": ["casos","proyectos"],
+    "content": "Case studies and recent projects..."
+  }
+]

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SahaHacking | Nivel 1 (La Base)</title>
+    <style>
+      /* CSS LIMPIO */
+      body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #0a0a1a; /* Fondo oscuro */
+      }
+      canvas {
+        display: block;
+        background-color: transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+      /*
+       * JAVASCRIPT DESDE CERO (NIVEL 1: EL SUELO)
+       * Esta es la base. Dibuja un fondo y un suelo.
+       * Está diseñado para no fallar.
+       */
+
+      // --- 1. CONFIGURACIÓN ---
+      const canvas = document.getElementById('gameCanvas');
+      const ctx = canvas.getContext('2d');
+
+      let GROUND_Y; // 'Y' es la posición vertical. La definiremos al cambiar el tamaño.
+
+      // --- 2. EL BUCLE DE JUEGO (El Corazón) ---
+      let lastTime;
+      function gameLoop(currentTime) {
+        // Manejo del tiempo (DeltaTime) para evitar errores
+        if (!lastTime) {
+          lastTime = currentTime;
+        }
+        let deltaTime = (currentTime - lastTime) / 1000;
+        if (isNaN(deltaTime) || deltaTime > 0.5) {
+          deltaTime = 0;
+        }
+        lastTime = currentTime;
+
+        // En un juego, aquí llamaríamos a update(deltaTime)
+
+        // Dibujar la escena
+        draw();
+
+        // Repetir
+        requestAnimationFrame(gameLoop);
+      }
+
+      // --- 3. FUNCIÓN DE DIBUJO ---
+      function draw() {
+        // Limpiar la pantalla
+        ctx.fillStyle = '#0a0a1a'; // Fondo oscuro
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Dibujar el suelo
+        ctx.fillStyle = '#4a4a5a'; // Un color gris para el suelo
+        ctx.fillRect(0, GROUND_Y, canvas.width, canvas.height - GROUND_Y);
+      }
+
+      // --- 4. EVENTOS (Solo para el tamaño de la ventana) ---
+      function onResize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Define el suelo como los 50 píxeles inferiores de la pantalla
+        GROUND_Y = canvas.height - 50;
+      }
+
+      // --- 5. INICIAR TODO ---
+      window.addEventListener('resize', onResize);
+
+      onResize(); // Llama esto una vez al inicio para establecer los tamaños
+
+      // Inicia el bucle de juego de forma segura
+      requestAnimationFrame(gameLoop);
+    </script>
+  </body>
+</html>

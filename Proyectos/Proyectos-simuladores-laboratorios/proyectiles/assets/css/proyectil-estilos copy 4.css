@@ -1,0 +1,175 @@
+/*
+ * Archivo: proyectil-estilos.css
+ * Nivel 7: Estilos para el panel de configuración y el histograma.
+ */
+
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: 'Space Mono', monospace;
+  color: #e0e0e0;
+}
+
+#background-gif-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+}
+
+#background-gif-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.5) contrast(1.2) blur(3px);
+  opacity: 0.7;
+}
+
+canvas#gameCanvas {
+  display: block;
+  cursor: crosshair;
+  background-color: transparent;
+}
+
+/* --- Estilos para Paneles Flotantes --- */
+.floating-panel {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: rgba(22, 22, 46, 0.7);
+  border: 1px solid #ff0077;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  color: #e0e0e0;
+  z-index: 10;
+  width: 280px; /* Un poco más ancho */
+}
+
+.panel-header {
+  background-color: rgba(255, 0, 119, 0.3);
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.panel-header h4 {
+  margin: 0;
+  font-weight: bold;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #e0e0e0;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.panel-content {
+  padding: 12px;
+}
+.panel-content h5 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #ff0077;
+  text-transform: uppercase;
+}
+.panel-content label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* --- ¡NUEVO! Rejilla de botones (para Lanzador/Proyectil) --- */
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  margin-bottom: 10px;
+}
+.grid-btn {
+  background-color: #333;
+  border: 1px solid #555;
+  color: #e0e0e0;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.grid-btn:hover {
+  background-color: #555;
+}
+.grid-btn.active {
+  background-color: #ff0077;
+  border-color: #ff0077;
+  color: white;
+}
+
+/* --- ¡NUEVO! Info del lanzador --- */
+#launcher-info {
+  font-size: 12px;
+  color: #aaa;
+  margin-bottom: 15px;
+}
+
+/* --- ¡NUEVO! Botón de borrar datos --- */
+#clear-data-btn {
+  width: 100%;
+  margin-top: 10px;
+  background-color: #555;
+  border: 1px solid #777;
+  color: #e0e0e0;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#clear-data-btn:hover {
+  background-color: #777;
+}
+
+/* --- Barra de Herramientas HUD --- */
+.hud-bar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  background-color: rgba(22, 22, 46, 0.7);
+  padding: 10px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid #444;
+}
+.hud-button {
+  background-color: #333;
+  color: #e0e0e0;
+  border: 1px solid #555;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-family: 'Space Mono', monospace;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.hud-button:hover {
+  background-color: #555;
+  border-color: #777;
+}
+.hud-button.fire {
+  background-color: #ff0077;
+  border-color: #ff0077;
+  color: white;
+  font-weight: bold;
+}
+.hud-button.fire:hover {
+  background-color: #ff3399;
+  box-shadow: 0 0 15px #ff0077;
+}

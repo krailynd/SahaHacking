@@ -1,0 +1,77 @@
+/*
+ * Archivo: proyectil-main.js
+ * Descripción: Lógica del Nivel 3 (Carga de suelo 3D).
+ */
+
+// --- 1. CONFIGURACIÓN ---
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+const GROUND_IMAGE_PATH =
+  'https://p.turbosquid.com/ts-thumb/nS/afcoJN/XJcoNe48/showcase/jpg/1488644923/1920x1080/fit_q87/30f8d7ebf3c2b9d904b688ff1e71360ff683b57e/showcase.jpg';
+let groundImage = new Image();
+let groundImageLoaded = false;
+
+let GROUND_Y;
+
+// --- 2. EL BUCLE DE JUEGO ---
+let lastTime;
+function gameLoop(currentTime) {
+  if (!lastTime) {
+    lastTime = currentTime;
+  }
+  let deltaTime = (currentTime - lastTime) / 1000;
+  if (isNaN(deltaTime) || deltaTime > 0.5) {
+    deltaTime = 0;
+  }
+  lastTime = currentTime;
+
+  draw();
+  requestAnimationFrame(gameLoop);
+}
+
+// --- 3. FUNCIÓN DE DIBUJO ---
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Dibujar el suelo
+  if (groundImageLoaded) {
+    // Estira la imagen para que llene el área del suelo
+    ctx.drawImage(
+      groundImage,
+      0,
+      GROUND_Y,
+      canvas.width,
+      canvas.height - GROUND_Y
+    );
+  } else {
+    // Si la imagen no ha cargado, dibuja un gris de antes
+    ctx.fillStyle = '#4a4a5a';
+    ctx.fillRect(0, GROUND_Y, canvas.width, canvas.height - GROUND_Y);
+  }
+}
+
+// --- 4. EVENTOS (Solo para el tamaño de la ventana) ---
+function onResize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  GROUND_Y = canvas.height - 50;
+}
+
+// --- Función para cargar assets ---
+function loadAssets() {
+  groundImage.src = GROUND_IMAGE_PATH;
+  groundImage.onload = () => {
+    groundImageLoaded = true;
+    console.log('Suelo 3D cargado.');
+  };
+  groundImage.onerror = () => {
+    console.error('No se pudo cargar la imagen del suelo.');
+  };
+}
+
+// --- 5. INICIAR TODO ---
+window.addEventListener('resize', onResize);
+onResize();
+loadAssets(); // Llama a la nueva función
+requestAnimationFrame(gameLoop);

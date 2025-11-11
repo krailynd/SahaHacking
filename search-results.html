@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Resultados de búsqueda - SahaHacking</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .search-list {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .search-item {
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
+    }
+    .search-item:last-child {
+      border-bottom: none;
+    }
+    .search-item h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+    .search-excerpt {
+      color: #555;
+      margin: 8px 0;
+      line-height: 1.6;
+    }
+    .search-meta {
+      font-size: 13px;
+      color: #888;
+      margin-top: 8px;
+    }
+    .search-matches {
+      margin-left: 15px;
+      color: #1c99fe;
+    }
+    .results-count {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body class="search-results-page">
+  <!-- Simple header reuse (logo + nav minimal) -->
+  <header id="header-sticky">
+    <div class="tp-header__area">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-6">
+            <div class="tp-logo tp-logo-border">
+              <a href="index.html"><img src="assets/img/logo/logo.png" alt="SahaHacking" class="img-logo-ssh"></a>
+            </div>
+          </div>
+          <div class="col-6 text-end">
+            <form class="tp-search-form" role="search">
+              <input type="text" id="global-search-input" placeholder="Buscar ...">
+              <button type="submit"><i class="far fa-search"></i></button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container pt-100 pb-80">
+      <div class="row justify-content-center">
+        <div class="col-xl-10">
+          <div class="tp-section-title-box text-center mb-40">
+            <h4 class="tp-section-subtitle tp-green-color">Search</h4>
+            <h3 class="tp-section-title">Resultados para: <span id="search-query"></span></h3>
+          </div>
+
+          <div id="search-results"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/search.js"></script>
+  </footer>
+</body>
+</html>

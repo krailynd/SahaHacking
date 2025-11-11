@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SahaHacking | Nivel 2 (Desenfoque 10px)</title>
+    <style>
+      /* CSS ACTUALIZADO */
+      body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #0a0a1a;
+      }
+
+      #background-gif-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        z-index: -1;
+      }
+
+      #background-gif-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+
+        /* --- ¡CORREGIDO! Desenfoque bajado a 10px --- */
+        filter: brightness(0.4) blur(10px);
+        opacity: 0.6;
+      }
+
+      canvas {
+        display: block;
+        background-color: transparent; /* Transparente para ver el GIF */
+      }
+    </style>
+  </head>
+  <body>
+    <div id="background-gif-container">
+      <img
+        src="https://cdn.pixabay.com/animation/2023/01/24/23/10/23-10-04-56_512.gif"
+        alt="Fondo animado"
+      />
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+      /*
+       * JAVASCRIPT (Nivel 2 - Sin cambios)
+       */
+
+      // --- 1. CONFIGURACIÓN ---
+      const canvas = document.getElementById('gameCanvas');
+      const ctx = canvas.getContext('2d');
+
+      let GROUND_Y;
+
+      // --- 2. EL BUCLE DE JUEGO ---
+      let lastTime;
+      function gameLoop(currentTime) {
+        if (!lastTime) {
+          lastTime = currentTime;
+        }
+        let deltaTime = (currentTime - lastTime) / 1000;
+        if (isNaN(deltaTime) || deltaTime > 0.5) {
+          deltaTime = 0;
+        }
+        lastTime = currentTime;
+
+        draw();
+        requestAnimationFrame(gameLoop);
+      }
+
+      // --- 3. FUNCIÓN DE DIBUJO ---
+      function draw() {
+        // Limpiamos la pantalla (ahora es transparente)
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Dibujar el suelo (sigue igual)
+        ctx.fillStyle = '#4a4a5a';
+        ctx.fillRect(0, GROUND_Y, canvas.width, canvas.height - GROUND_Y);
+      }
+
+      // --- 4. EVENTOS (Solo para el tamaño de la ventana) ---
+      function onResize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        GROUND_Y = canvas.height - 50;
+      }
+
+      // --- 5. INICIAR TODO ---
+      window.addEventListener('resize', onResize);
+      onResize();
+      requestAnimationFrame(gameLoop);
+    </script>
+  </body>
+</html>

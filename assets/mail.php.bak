@@ -1,0 +1,97 @@
+<?php
+
+
+require __DIR__ . '/../vendor/autoload.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+// Configuración del correo
+$recipient = 'krailyndg@gmail.com';
+$from_email = 'krailyndg@gmail.com';
+$from_name = 'SahaHacking Website';
+$smtp_host = 'smtp.gmail.com';
+$smtp_port = 587;
+$smtp_username = 'krailyndg@gmail.com';
+$smtp_password = 'mkxb fjdo aokr syvx';
+$smtp_secure = 'tls';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    header('Content-Type: application/json');
+    try {
+        // Sanitizar y validar entradas
+    $name = htmlspecialchars(trim($_POST["name"] ?? ''));
+    $email = filter_var(trim($_POST["email"] ?? ''), FILTER_SANITIZE_EMAIL);
+    $message = htmlspecialchars(trim($_POST["message"] ?? ''));
+        $subject = "Nuevo mensaje de contacto desde SahaHacking";
+
+        if (empty($name) || empty($email) || empty($message)) {
+            throw new Exception('Por favor complete todos los campos.');
+        }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new Exception('Por favor ingrese un email válido.');
+        }
+
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->Host = $smtp_host;
+        $mail->SMTPAuth = true;
+        $mail->Username = $smtp_username;
+        $mail->Password = $smtp_password;
+        $mail->SMTPSecure = $smtp_secure;
+        $mail->Port = $smtp_port;
+        $mail->CharSet = 'UTF-8';
+
+        $mail->setFrom($from_email, $from_name);
+        $mail->addAddress($recipient);
+        $mail->addReplyTo($email, $name);
+
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body = "
+            <html>
+            <head>
+                <style>
+                    body { font-family: Arial, sans-serif; }
+                    .container { padding: 20px; }
+                    .header { background: #f5f5f5; padding: 15px; }
+                    .content { margin-top: 20px; }
+                </style>
+            </head>
+            <body>
+                <div class='container'>
+                    <div class='header'>
+                        <h2>Nuevo mensaje de contacto</h2>
+                    </div>
+                    <div class='content'>
+                        <p><strong>Nombre:</strong> " . htmlspecialchars($name) . "</p>
+                        <p><strong>Email:</strong> " . htmlspecialchars($email) . "</p>
+                        <p><strong>Mensaje:</strong><br>" . nl2br(htmlspecialchars($message)) . "</p>
+                    </div>
+                </div>
+            </body>
+            </html>";
+        $mail->AltBody = "Nombre: $name\nEmail: $email\nMensaje:\n$message";
+
+        if ($mail->send()) {
+            echo json_encode([
+                'status' => 'success',
+                'message' => '¡Gracias! Tu mensaje ha sido enviado correctamente.'
+            ]);
+        } else {
+            throw new Exception($mail->ErrorInfo);
+        }
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Oops! An error occured and your message could not be sent. ' . $e->getMessage()
+        ]);
+    }
+} else {
+    http_response_code(405);
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Método no permitido'
+    ]);
+}
+?>

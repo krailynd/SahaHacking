@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SahaHacking | Nivel 11 (Predicción)</title>
+    <link rel="stylesheet" href="assets/css/proyectil-estilos.css" />
+  </head>
+  <body>
+    <div id="background-gif-container">
+      <img
+        src="https://cdn.pixabay.com/animation/2023/01/24/23/10/23-10-04-56_512.gif"
+        alt="Fondo animado"
+      />
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <div id="controls-container">
+      <button id="fireButton">Disparar</button>
+      <button id="toggleDataButton">Datos</button>
+      <button id="toggleHistoryButton">Historial</button>
+    </div>
+
+    <div id="data-panel" class="hidden">
+      <h3>Datos de Lanzamiento</h3>
+      <p>Velocidad Inicial: <span id="data-velocity">--</span> m/s</p>
+      <p>Ángulo de Disparo: <span id="data-angle">--</span>°</p>
+
+      <h3>Datos en Vivo</h3>
+      <p>Tiempo en Vuelo: <span id="data-time-air">--</span> s</p>
+      <p>Posición X (dist.): <span id="data-pos-x">--</span> m</p>
+      <p>Posición Y (altura): <span id="data-pos-y">--</span> m</p>
+      <p>Altura Máxima (vivo): <span id="data-peak-y">--</span> m</p>
+    </div>
+
+    <div id="history-panel" class="hidden">
+      <h3>Historial de Disparos</h3>
+      <ul id="history-list"></ul>
+    </div>
+
+    <script src="assets/js/proyectil-main.js"></script>
+  </body>
+</html>

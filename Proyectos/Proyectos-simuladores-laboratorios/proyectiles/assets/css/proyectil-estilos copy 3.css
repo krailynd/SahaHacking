@@ -1,0 +1,131 @@
+/*
+ * Archivo: proyectil-estilos.css
+ * Nivel 5: Fondo animado con GIF.
+ */
+
+body {
+  margin: 0;
+  overflow: hidden;
+  /* ¡Quitamos el background-color fijo de aquí! */
+  font-family: 'Roboto Mono', monospace;
+  color: #e0e0e0;
+}
+
+/* --- NUEVO: Contenedor para el GIF de fondo --- */
+#background-gif-container {
+  position: fixed; /* Fijo en la pantalla */
+  top: 0;
+  left: 0;
+  width: 100vw; /* Ancho completo del viewport */
+  height: 100vh; /* Alto completo del viewport */
+  overflow: hidden; /* Asegura que el GIF no se salga */
+  z-index: -1; /* ¡IMPORTANTE! Envía el fondo detrás de todo */
+}
+
+#background-gif-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cubre todo el espacio manteniendo la relación de aspecto */
+  filter: brightness(0.7) contrast(1.2); /* Ajustes para que no sea demasiado brillante y resalte el juego */
+}
+
+canvas {
+  display: block;
+  /* ¡Quitamos el background-color fijo de aquí! El GIF se verá a través del canvas transparente. */
+  cursor: crosshair;
+}
+
+/* --- Estilos para Paneles Flotantes (sin cambios) --- */
+.floating-panel {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: rgba(22, 22, 46, 0.7);
+  border: 1px solid #ff0077;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  color: #e0e0e0;
+  z-index: 10;
+  width: 250px;
+}
+
+.panel-header {
+  background-color: rgba(255, 0, 119, 0.3);
+  padding: 5px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.panel-header h4 {
+  margin: 0;
+  font-weight: bold;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #e0e0e0;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.panel-content {
+  padding: 10px;
+}
+
+.panel-content label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* --- Barra de Herramientas HUD (sin cambios) --- */
+.hud-bar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  gap: 10px;
+
+  background-color: rgba(22, 22, 46, 0.7);
+  padding: 10px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid #444;
+}
+
+.hud-button {
+  background-color: #333;
+  color: #e0e0e0;
+  border: 1px solid #555;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hud-button:hover {
+  background-color: #555;
+  border-color: #777;
+}
+
+.hud-button.fire {
+  background-color: #ff0077;
+  border-color: #ff0077;
+  color: white;
+  font-weight: bold;
+}
+
+.hud-button.fire:hover {
+  background-color: #ff3399;
+  box-shadow: 0 0 15px #ff0077;
+}

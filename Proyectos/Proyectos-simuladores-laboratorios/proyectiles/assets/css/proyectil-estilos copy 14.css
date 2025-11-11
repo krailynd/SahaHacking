@@ -1,0 +1,205 @@
+/*
+* Archivo: proyectil-estilos.css
+* Descripción: Estilos para el Nivel 12 (Panel de Configuración).
+*/
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: #0a0a1a;
+  font-family: Arial, sans-serif;
+}
+
+/* --- Fondo --- */
+#background-gif-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+}
+#background-gif-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.4) blur(10px);
+  opacity: 0.6;
+}
+
+/* --- Canvas --- */
+canvas {
+  display: block;
+  background-color: transparent;
+}
+
+/* --- Contenedor de Botones --- */
+#controls-container {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  display: flex;
+  gap: 10px;
+}
+
+/* --- Estilos de Botones --- */
+#fireButton,
+#toggleDataButton,
+#toggleHistoryButton,
+#toggleSettingsButton {
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+#fireButton:hover,
+#toggleDataButton:hover,
+#toggleHistoryButton:hover,
+#toggleSettingsButton:hover {
+  background-color: #0056b3;
+}
+
+/* --- Panel de Datos (Izquierda) --- */
+#data-panel {
+  position: fixed;
+  top: 80px;
+  left: 20px;
+  width: 250px;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  z-index: 5;
+}
+#data-panel h3 {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #555;
+  padding-bottom: 5px;
+}
+#data-panel p {
+  margin: 5px 0;
+}
+#data-panel span {
+  font-weight: bold;
+  color: #ffab00;
+}
+
+/* --- NUEVO: Panel de Configuración --- */
+#settings-panel {
+  position: fixed;
+  top: 310px; /* Debajo del panel de datos */
+  left: 20px;
+  width: 250px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  z-index: 5;
+}
+.control-group {
+  margin-bottom: 12px;
+}
+.control-group label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 4px;
+  color: #ccc;
+}
+.input-wrapper {
+  display: flex;
+  align-items: center;
+}
+.input-wrapper input[type='number'] {
+  width: 100%;
+  background-color: #222;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 4px;
+  padding: 6px;
+  text-align: center;
+  /* Ocultar flechas por defecto del input number */
+  -moz-appearance: textfield;
+}
+.input-wrapper input[type='number']::-webkit-outer-spin-button,
+.input-wrapper input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.input-wrapper button {
+  background-color: #333;
+  color: white;
+  border: 1px solid #555;
+  cursor: pointer;
+  padding: 6px 10px;
+}
+.input-wrapper button.stepper {
+  font-weight: bold;
+  width: 30px;
+}
+.input-wrapper button#reset-gravity {
+  margin-left: 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.input-wrapper button:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.input-wrapper button:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+/* --- Panel de Historial (Derecha) --- */
+#history-panel {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 250px;
+  max-height: 400px;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  z-index: 5;
+}
+#history-panel h3 {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #555;
+  padding-bottom: 5px;
+}
+#history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+#history-list li {
+  padding: 8px;
+  border-bottom: 1px solid #444;
+  font-size: 14px;
+}
+#history-list li:last-child {
+  border-bottom: none;
+}
+#history-list li strong {
+  color: #00aaff;
+}
+
+/* --- Clase para Ocultar Paneles --- */
+.hidden {
+  display: none;
+}

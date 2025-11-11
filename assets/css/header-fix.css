@@ -1,0 +1,71 @@
+/* === HEADER RESPONSIVE FIX (SahaHacking) =============================== */
+
+/* 1) Altura y alineación del header */
+#header-sticky.tp-header-area {
+  /* altura coherente en todas las densidades y zoom */
+  min-height: clamp(64px, 8vh, 96px);
+  display: flex;
+  align-items: center;
+}
+
+/* cuando el header se vuelve sticky, conserva la altura y padding */
+.header-sticky.tp-header-area,
+.header-transparent.header-sticky {
+  min-height: clamp(64px, 8vh, 96px);
+  /* evita saltos de layout */
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* 2) Menú de escritorio: sin posicionamiento manual, usa Flex */
+.tp-main-menu nav ul {
+  position: static !important; /* anula position:relative */
+  top: auto !important; /* anula top:-52px */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* centrado horizontal */
+  gap: clamp(12px, 3vw, 50px); /* espacio fluido entre items */
+  margin: 0;
+  padding: 0;
+}
+
+/* Los li ya venían en inline-block; con flex no hace falta */
+.tp-main-menu nav li {
+  display: inline-flex;
+}
+
+/* Ajusta el “hit area” y altura de las opciones */
+.tp-main-menu nav li > a {
+  display: inline-flex;
+  align-items: center;
+  height: clamp(48px, 6vh, 70px);
+  padding: 0 4px; /* padding lateral suave */
+  letter-spacing: 0.14em; /* respetando tu estilo */
+}
+
+/* 3) Logo: limita la altura para alinear con el menú */
+.tp-logo img {
+  max-height: clamp(32px, 6vh, 48px);
+  height: auto;
+  width: auto;
+}
+
+/* 4) Grid del header: fuerza alineación vertical */
+.tp-header-area .row {
+  align-items: center !important;
+}
+
+/* 5) Responsive: de 992px para abajo tu menú móvil ya toma control (meanmenu) */
+@media (max-width: 1199.98px) {
+  .tp-main-menu {
+    display: none !important;
+  } /* ya usas d-none d-xl-block */
+}
+
+/* 6) Evita que el sticky tape “saltos” por sombras/padding */
+.header-border-2.header-sticky,
+.header-transparent.header-sticky,
+.black-bg.header-sticky,
+.sticky-white-bg.header-sticky {
+  box-shadow: 0px 2px 18px rgba(0, 0, 0, 0.06); /* más suave y consistente */
+}

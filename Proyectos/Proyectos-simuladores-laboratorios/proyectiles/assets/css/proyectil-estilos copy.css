@@ -1,0 +1,53 @@
+/*
+ * Archivo: proyectil-estilos.css
+ * Descripción: Estilos principales para el simulador de proyectiles "SahaHacking".
+ * Nivel 3: Añadidos estilos para el botón de disparo (HUD).
+ */
+
+body {
+  margin: 0;
+  /* ¡CLAVE! Esto previene el scroll de la PÁGINA (el del navegador) */
+  overflow: hidden;
+  background-color: #1a1a2e; /* Fondo oscuro Cyberpunk */
+  font-family: 'Roboto Mono', monospace;
+  color: #e0e0e0;
+}
+
+canvas {
+  display: block;
+  background-color: #1a1a2e;
+  cursor: crosshair;
+}
+
+/* --- NUEVO: Estilo del Botón de Disparo --- */
+
+.fire-button {
+  position: fixed; /* Fijo en la pantalla (HUD) */
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%); /* Centrado perfectamente */
+
+  background-color: rgba(
+    255,
+    0,
+    119,
+    0.5
+  ); /* Color rosa/rojo (#FF0077) translúcido */
+  color: #ffffff;
+  border: 2px solid #ff0077;
+  border-radius: 8px;
+  padding: 12px 24px;
+
+  font-family: 'Roboto Mono', monospace;
+  font-size: 16px;
+  font-weight: bold;
+
+  cursor: pointer;
+  backdrop-filter: blur(5px); /* Efecto "vidrio esmerilado" */
+  transition: all 0.2s ease;
+}
+
+.fire-button:hover {
+  background-color: rgba(255, 0, 119, 0.8);
+  box-shadow: 0 0 15px #ff0077;
+}

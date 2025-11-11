@@ -1,0 +1,35 @@
+/*
+ * Archivo: proyectil-estilos.css
+ * Descripción: Nivel 4 - Añadido cursor al canvas.
+ */
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: #0a0a1a;
+}
+
+/* --- Contenedor del Fondo GIF --- */
+#background-gif-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+}
+
+#background-gif-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.4) blur(10px);
+  opacity: 0.6;
+}
+
+canvas {
+  display: block;
+  background-color: transparent;
+  cursor: crosshair; /* ¡NUEVO! El cursor ahora es una mira */
+}

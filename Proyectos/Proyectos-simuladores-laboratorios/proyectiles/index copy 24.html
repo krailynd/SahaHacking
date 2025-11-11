@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SahaHacking | Nivel 13 (Responsive)</title>
+    <link rel="stylesheet" href="assets/css/proyectil-estilos.css">
+</head>
+<body>
+
+    <div id="background-gif-container">
+        <img src="https://cdn.pixabay.com/animation/2023/01/24/23/10/23-10-04-56_512.gif" alt="Fondo animado">
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <div id="controls-container">
+        <button id="fireButton">Disparar</button>
+        <button id="toggleDataButton">Datos</button>
+        <button id="toggleHistoryButton">Historial</button>
+        <button id="toggleSettingsButton">Config.</button>
+    </div>
+
+    <div id="data-panel" class="hidden">
+        <h3>Datos de Lanzamiento</h3>
+        <p>Velocidad Inicial: <span id="data-velocity">--</span> px/s</p>
+        <p>Ángulo de Disparo: <span id="data-angle">--</span>°</p>
+        <h3>Datos en Vivo</h3>
+        <p>Tiempo en Vuelo: <span id="data-time-air">--</span> s</p>
+        <p>Posición X (dist.): <span id="data-pos-x">--</span> px</p>
+        <p>Posición Y (altura): <span id="data-pos-y">--</span> px</p>
+        <p>Altura Máxima (vivo): <span id="data-peak-y">--</span> px</p>
+    </div>
+
+    <div id="settings-panel" class="hidden">
+        <h3>Configuración</h3>
+        <div class="control-group">
+            <label for="input-gravity">Gravedad (px/s²):</label>
+            <div class="input-wrapper">
+                <input type="number" id="input-gravity" step="10">
+                <button id="reset-gravity">Reset</button>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="input-velocity">Velocidad Inicial (px/s):</label>
+            <div class="input-wrapper">
+                <button class"stepper" id="vel-down">-</button>
+                <input type="number" id="input-velocity" step="10">
+                <button class"stepper" id="vel-up">+</button>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="input-angle">Ángulo (°):</label>
+            <div class="input-wrapper">
+                <button class"stepper" id="angle-down">-</button>
+                <input type="number" id="input-angle" step="1">
+                <button class"stepper" id="angle-up">+</button>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="input-cannon-x">Posición X Cañón (px):</label>
+            <div class="input-wrapper">
+                <button class"stepper" id="cannon-x-down">-</button>
+                <input type="number" id="input-cannon-x" step="5">
+                <button class"stepper" id="cannon-x-up">+</button>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="input-cannon-height">Altura Cañón (px):</label>
+            <div class="input-wrapper">
+                <button class"stepper" id="cannon-h-down">-</button>
+                <input type="number" id="input-cannon-height" step="5">
+                <button class"stepper" id="cannon-h-up">+</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="history-panel" class="hidden">
+        <h3>Historial de Disparos</h3>
+        <ul id="history-list">
+            </ul>
+    </div>
+
+    <script src="assets/js/proyectil-main.js"></script>
+</body>
+</html>
