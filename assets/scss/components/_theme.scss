@@ -111,6 +111,8 @@ h6 {
 }
 
 ul {
+	position: relative;
+	top: -40px;
     margin: 0px;
     padding: 0px;
 }
@@ -322,4 +324,5 @@ input[type="color"] {
 .gx-20 {
     --bs-gutter-x: 20px;
 }
+
 
