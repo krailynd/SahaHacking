@@ -166,6 +166,8 @@
                 border-top: 5px solid var(--tp-theme-1);
                 border-radius: 5px 5px 0 0;
                 & li {
+					position: relative;
+					top: -40px;
                     margin: 0;
                     display: block;
                     margin-bottom: 15px;
@@ -878,6 +880,7 @@
         }
     } 
 }
+
 
 
 
